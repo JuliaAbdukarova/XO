@@ -1,15 +1,9 @@
 import "./App.css";
 import Game from "./components/Game";
-import React, { useState } from "react";
-
-const onClickHandler = () => console.log("dafault behavier");
+import React from "react";
 
 function App() {
-  return (
-    <React.StrictMode>
-      <Game />
-    </React.StrictMode>
-  );
+  return <Game />;
 }
 
 export default App;
