@@ -1,6 +1,6 @@
 const initialState = { cells: Array(9).fill(null), xIsNext: true };
 
-const action = { type: "move", payload: null };
+//const action = { type: "move", payload: null };
 
 export default function appReducer(state = initialState, action) {
   const { type, payload } = action;
@@ -8,12 +8,7 @@ export default function appReducer(state = initialState, action) {
 
   switch (type) {
     case "move":
-      /*
-      console.log("Это ход ->");
-      console.log(payload);
-      console.log(newState);
-      console.log("Это ход <-");
-      */
+      console.log("Это ход!");
       newState.xIsNext = !payload.xIsNext;
       return newState;
 

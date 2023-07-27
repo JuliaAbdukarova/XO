@@ -1,69 +1,40 @@
-import React, { useEffect, useState } from "react";
 import Board from "./Board";
 import style from "./css/Game.module.css";
 import { appStore } from "../store";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { moveAction, restartAction } from "../actions";
+import { selectCells, selectUser } from "../selectors";
+import { calculateWinner } from "../hooks";
 
 const Game = () => {
-  // const [cells, setCells] = useState(Array(9).fill(null));
-  //const [xIsNext, setXIsNext] = useState(true);
+  const dispatch = useDispatch();
 
   const handleClick = (i) => {
-    //const newCells = [...cells];
-    const newCells = [...appStore.getState().cells];
+    const newCells = [...selectCells(appStore)];
 
-    //if (calculateWinner(cells) || newCells[i]) {
-    if (calculateWinner(appStore.getState().cells) || newCells[i]) {
+    if (calculateWinner(selectCells(appStore)) || newCells[i]) {
       return;
     }
-    //console.log(`appStore.getState().xIsNext = ${appStore.getState().xIsNext}`);
-    newCells[i] = appStore.getState().xIsNext ? "X" : "O";
 
-    //setCells(newCells);
-    appStore.dispatch({
-      type: "move",
-      payload: { cells: newCells, xIsNext: appStore.getState().xIsNext },
-    });
+    newCells[i] = selectUser(appStore) ? "X" : "O";
 
-    //setXIsNext(!xIsNext);
+    dispatch(moveAction(newCells));
   };
 
   const handleRestart = () => {
-    //setCells(Array(9).fill(null));
-    appStore.dispatch({ type: "restart", payload: {} });
-    //setXIsNext(true);
-  };
-
-  const calculateWinner = (cells) => {
-    const winnerLines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < winnerLines.length; i++) {
-      const [a, b, c] = winnerLines[i];
-      if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-        return cells[a];
-      }
-    }
-    return null;
+    dispatch(restartAction());
   };
 
   //const winner = calculateWinner(cells);
-  const winner = calculateWinner(appStore.getState().cells);
+  const winner = calculateWinner(selectCells(appStore));
   const status = winner
     ? `Победитель: ${winner}`
-    : `Следующий  игрок: ${appStore.getState().xIsNext ? "X" : "O"}`;
+    : `Следующий  игрок: ${selectUser(appStore) ? "X" : "O"}`;
   // console.log(appStore.getState());
   return (
     <div className={style.game}>
       <div>{status}</div>
-      <Board cells={appStore.getState().cells} onClick={handleClick} />
+      <Board cells={selectCells(appStore)} onClick={handleClick} />
       {winner && <button onClick={handleRestart}>Начать заново</button>}
     </div>
   );
