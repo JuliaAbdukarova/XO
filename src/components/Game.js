@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Board from "./Board";
-import style from "./css/Game.module.css";
 import { appStore } from "../store";
 import { connect } from "react-redux";
 import { moveAction, restartAction } from "../actions";
@@ -40,7 +39,7 @@ class Game extends Component {
 
     console.log(appStore.getState());
     return (
-      <div className={style.game}>
+      <div className="flex flex-col h-screen">
         <div>{status}</div>
         <Board cells={selectCells(appStore)} onClick={this.handleClick} />
         {winner && <button onClick={this.handleRestart}>Начать заново</button>}
