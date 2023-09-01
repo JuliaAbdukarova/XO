@@ -9,6 +9,7 @@ export const calculateWinner = (cells) => {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
   for (let i = 0; i < winnerLines.length; i++) {
     const [a, b, c] = winnerLines[i];
     if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {

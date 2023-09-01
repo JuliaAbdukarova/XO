@@ -1,1 +1,1 @@
-export const selectCells = (state) => state.cells;
+export const selectCells = (state) => state.getState().cells;

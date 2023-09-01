@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import style from "./css/Symbol.module.css";
 
-const Symbol = ({ value }) => {
-  return <div className={style.symbol}>{value}</div>;
-};
+class Symbol extends Component {
+  render() {
+    return <div className={style.symbol}>{this.props.value}</div>;
+  }
+}
 
 export default Symbol;
